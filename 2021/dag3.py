@@ -8,7 +8,10 @@ data = lines;
 
 for x in data:
     if x != ''
-        int(x)
+        int(x)9\
+
+
+            
     
 
 print(data)
