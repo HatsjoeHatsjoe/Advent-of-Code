@@ -32,7 +32,7 @@ for x in lines:
 
 # print(root)
 
-
+prpr
 
 file2 = open('testdata_dag7.txt','r')
 lines2 = file2.readlines()
