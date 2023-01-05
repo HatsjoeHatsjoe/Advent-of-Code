@@ -1,13 +1,14 @@
 class Tree:
     # "Generic tree node."
-    def __init__(self, name):
+    def __init__(self, name, parent):
         self.name = name
         self.children = []
         self.files = 0
-        self.parent = []
+        self.parent = parent
+        self.tot_size = 0
 
-    def add_child(self, node):
-        self.children.append(Tree(node))
+    def add_child(self, node, parent):
+        self.children.append(Tree(node,parent))
         
 
     def add_file(self, file):
@@ -20,22 +21,25 @@ class Tree:
                 return child
 
    
-    
-    
-
 def print_tree(node):
-    names = [node.name]
-    if  len(node.children) == 0:
-        return node.name , node.files, names
-    
-    else:
+    names = [(node.name,node.files)]
+
+    if  len(node.children) > 0:
         for child in node.children:
-            names.append(child.name)
-            print_tree(child)
-            return names
+            names.append(print_tree(child))
+    return names
     
+def size_node(node,size):
     
-            
+    if len(node.children) == 0:
+        node.tot_size = node.files        
+        return node , node.tot_size
+        
+    else:
+        for child in node.children:            
+            sum_nodes = sum(size_node(child,size)[1]) 
+        node.tot_size = Head.files + sum_nodes
+         
 
 
 
@@ -69,18 +73,16 @@ for x in data:
     
         elif x == '$ cd /':
             # hoofdmap aanmaken en die de huidige map maken
-            Head = Tree('Head')
+            Head = Tree('Head',None)
             Current = Head
 
         else:
             gesplit = x.split()
             NameChild = gesplit[-1]
-            Temp_Parent = Current
             Current = Current.get_child(NameChild)
-            Current.parent = Temp_Parent
             
             # 1 van de children de nieuwe 'huidige' map maken
-            # ook de parent van de nieuwe map definieren
+            
                         
 
     if x[0].isdigit():
@@ -91,8 +93,9 @@ for x in data:
 
     if x.startswith('dir'):
         Dirname = x.split()[-1]
-        Current.add_child(Dirname)
-
+        Current.add_child(Dirname,Current)
 
 
 print(print_tree(Head))
+print(size_node(Head,Head.files))
+print(sum(size_node(Head,Head.files)))
