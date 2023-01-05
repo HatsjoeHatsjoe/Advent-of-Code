@@ -1,17 +1,22 @@
+class Tree:
+    # "Generic tree node."
+    def __init__(self, name):
+        self.name = name
+        self.children = []
+        self.files = 0
+        self.parent = []
 
+    def add_child(self, node):
+        self.children.append(Tree(node))
+        
 
-# print(type(z))
+    def add_file(self, file):
+        self.files += file
+    
 
-# print(type(c))
+    def get_child(self, name):
+        for child in self.children:
+            if child.name == name:
+                return child
 
-# q = 'a'
-
-# print(ord(q))
-
-A = '3'
-a = 3
-
-b = 5
-
-c= A+b
-print(c)
+c = Tree('head')
