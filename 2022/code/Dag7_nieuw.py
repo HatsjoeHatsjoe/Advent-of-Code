@@ -19,20 +19,22 @@ class Tree:
             if child.name == name:
                 return child
 
-    def get_parent(self):
-        for parent in self.parent:
-            return parent
+   
     
     
 
 def print_tree(node):
-    if not node.children:
-        return node.name , node.files
+    names = [node.name]
+    if  len(node.children) == 0:
+        return node.name , node.files, names
     
     else:
-        nieuw = print_tree(node)
-        return nieuw
-        
+        for child in node.children:
+            names.append(child.name)
+            print_tree(child)
+            return names
+    
+    
             
 
 
@@ -61,8 +63,8 @@ for x in data:
     if x.startswith('$ cd'):
         # print('er stond cd')
         if x[-1] == '.':
-            print(Current.parent)
-            Current = Current.get_parent()
+            Current = Current.parent  # parent is nu een string door de manier hoe die is toegevoegd.
+                                            # kan vorige map dus niet open op juiste manier.
             
     
         elif x == '$ cd /':
@@ -73,7 +75,7 @@ for x in data:
         else:
             gesplit = x.split()
             NameChild = gesplit[-1]
-            Temp_Parent = Current.name
+            Temp_Parent = Current
             Current = Current.get_child(NameChild)
             Current.parent = Temp_Parent
             
@@ -92,4 +94,5 @@ for x in data:
         Current.add_child(Dirname)
 
 
-   
+
+print(print_tree(Head))
