@@ -42,25 +42,21 @@ def size_node(node,size):
     return node , node.tot_size
 
 
-size_all = []    
 def get_tot_size(node):
-    if len(node.children) > 0:
-        for child in node.children:                             
-            size_all.append(get_tot_size(child)[0])        
-    # else:
-    #     size_all.append(node.tot_size)    
-    return node.tot_size , size_all
+   
+    tot_sum = 0
+
+    if node.tot_size <= 100000:
+        tot_sum += node.tot_size
+    
+    for child in node.children:                             
+        tot_sum += get_tot_size(child)      
+             
+    return tot_sum
 
 
-def part1(totals):
-    print('de lijst die we gaan checken voor data = ', totals)
-    totals = set(totals)
-    under100k = 0
-    for x in totals:
-        # print(x)
-        if x <= 100000:
-            under100k += x
-    return under100k
+def get_AllSizes(node):
+    AllSizes = []
 
 
 
@@ -123,4 +119,4 @@ size_node(Head,Head.files)
 # print(a.tot_size)
 print(print_tree(Head))
 print(get_tot_size(Head))
-print(part1(get_tot_size(Head)[1]))
+# print(part1(get_tot_size(Head)[1]))
