@@ -22,7 +22,7 @@ class Tree:
 
    
 def print_tree(node):
-    names = [(node.name,node.files)]
+    names = [(node.name,node.files,node.tot_size)]
 
     if  len(node.children) > 0:
         for child in node.children:
@@ -33,13 +33,35 @@ def size_node(node,size):
     
     if len(node.children) == 0:
         node.tot_size = node.files        
-        return node , node.tot_size
-        
+
     else:
+        sum_nodes = []
         for child in node.children:            
-            sum_nodes = sum(size_node(child,size)[1]) 
-        node.tot_size = Head.files + sum_nodes
-         
+            sum_nodes.append(size_node(child,size)[1]) 
+        node.tot_size = node.files + sum(sum_nodes)
+    return node , node.tot_size
+
+
+size_all = []    
+def get_tot_size(node):
+    if len(node.children) > 0:
+        for child in node.children:                             
+            size_all.append(get_tot_size(child)[0])        
+    # else:
+    #     size_all.append(node.tot_size)    
+    return node.tot_size , size_all
+
+
+def part1(totals):
+    print('de lijst die we gaan checken voor data = ', totals)
+    totals = set(totals)
+    under100k = 0
+    for x in totals:
+        # print(x)
+        if x <= 100000:
+            under100k += x
+    return under100k
+
 
 
 
@@ -58,9 +80,9 @@ data2 = []
 for x in lines2:
     data2.append(x.replace('\n',''))
 
-data = data2
+# data = data2
 
-print(data)
+# print(data)
 
 
 for x in data:
@@ -96,6 +118,9 @@ for x in data:
         Current.add_child(Dirname,Current)
 
 
+# print(print_tree(Head))
+size_node(Head,Head.files)
+# print(a.tot_size)
 print(print_tree(Head))
-print(size_node(Head,Head.files))
-print(sum(size_node(Head,Head.files)))
+print(get_tot_size(Head))
+print(part1(get_tot_size(Head)[1]))
