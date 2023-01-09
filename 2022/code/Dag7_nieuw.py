@@ -57,6 +57,45 @@ def get_tot_size(node):
 
 def get_AllSizes(node):
     AllSizes = []
+    AllSizes.append(node.tot_size)
+
+    for child in node.children:
+        AllSizes.append(get_AllSizes(child))
+    return AllSizes
+
+
+def flattenList(nestedList):
+# Python program to flatten a nested list
+
+# explicit function to flatten a
+# nested list
+
+	# check if list is empty
+	if not(bool(nestedList)):
+		return nestedList
+
+	# to check instance of list is empty or not
+	if isinstance(nestedList[0], list):
+
+		# call function with sublist as argument
+		return flattenList(*nestedList[:1]) + flattenList(nestedList[1:])
+
+	# call function with sublist as argument
+	return nestedList[:1] + flattenList(nestedList[1:])
+
+def part2(sizes):
+    unused_space = 70000000 - Head.tot_size
+    space_needed = 30000000 - unused_space
+    for x in range(len(sizes)):
+        sizes[x] = sizes[x] - space_needed
+    
+    positive = [ele for ele in sizes if ele > 0]
+    positive.sort()
+    goede = positive[0] + space_needed
+    return goede    
+    
+
+
 
 
 
@@ -117,6 +156,11 @@ for x in data:
 # print(print_tree(Head))
 size_node(Head,Head.files)
 # print(a.tot_size)
-print(print_tree(Head))
-print(get_tot_size(Head))
-# print(part1(get_tot_size(Head)[1]))
+# print(print_tree(Head))
+# print(get_tot_size(Head))
+AllSizes = get_AllSizes(Head)
+# print(AllSizes)
+flatten_AllSizes = flattenList(AllSizes)
+print("Flattened List:\n", flatten_AllSizes)
+
+print(part2(flatten_AllSizes))
