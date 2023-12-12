@@ -1,0 +1,13 @@
+{
+	"folders": [
+		{
+			"name": ".vscode",
+			"path": "../../../../Advent of Code/.vscode"
+		},
+		{
+			"name": "Advent-of-Code",
+			"path": "../.."
+		}
+	],
+	"settings": {}
+}

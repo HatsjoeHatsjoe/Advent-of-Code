@@ -106,9 +106,9 @@ lines = file1.readlines()
 data = []
 for x in lines:
     data.append(x.replace('\n',''))
-    file2 = open('2022/data/testdata_dag7.txt','r')
+    
 
-
+file2 = open('2022/data/testdata_dag7.txt','r')
 lines2 = file2.readlines()
 
 data2 = []
@@ -125,23 +125,17 @@ for x in data:
         # print('er stond cd')
         if x[-1] == '.':
             Current = Current.parent  # parent is nu een string door de manier hoe die is toegevoegd.
-                                            # kan vorige map dus niet open op juiste manier.
-            
-    
+                                            # kan vorige map dus niet open op juiste manier.    
         elif x == '$ cd /':
             # hoofdmap aanmaken en die de huidige map maken
             Head = Tree('Head',None)
             Current = Head
-
         else:
             gesplit = x.split()
             NameChild = gesplit[-1]
             Current = Current.get_child(NameChild)
             
             # 1 van de children de nieuwe 'huidige' map maken
-            
-                        
-
     if x[0].isdigit():
         FileSize = x.split()[0]
         FileSize = int(FileSize)
